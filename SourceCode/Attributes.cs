@@ -1,25 +1,36 @@
-﻿using MG.Attributes.Interfaces;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 
-namespace MG
+namespace MG.Attributes
 {
-    //public class IdentifierAttribute : Attribute, IAttribute
-    //{
-    //    private RegistryValueKind _regKind;
-    //    public IdentifierAttribute(RegistryValueKind regKind)
-    //    {
-    //        _regKind = regKind;
-    //    }
-    //    public object Value => _regKind;
-    //}
-    public class TypeAttribute : Attribute, IAttribute
+    public abstract class DualAttribute : MGAbstractAttribute
     {
-        private Type _t;
-        public TypeAttribute(Type type)
+        public DualAttribute(object o)
+            : base(o)
         {
-            _t = type;
         }
-        public object Value => _t;
+    }
+
+    public class IdentifierAttribute : MGAbstractAttribute
+    {
+        public IdentifierAttribute(RegistryValueKind regKind)
+            : base(regKind)
+        {
+        }
+    }
+
+    public class TypeAttribute : DualAttribute
+    {
+        public TypeAttribute(Type type)
+            : base(type)
+        {
+        }
+    }
+    public class MultiTypeAttribute : DualAttribute
+    {
+        public MultiTypeAttribute(Type[] types)
+            : base(types)
+        {
+        }
     }
 }

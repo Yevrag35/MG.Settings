@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -36,8 +38,9 @@
     <AssemblyOriginatorKeyFile>App.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MG.Attributes">
-      <HintPath>Assemblies\MG.Attributes.dll</HintPath>
+    <Reference Include="MG.Attributes, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Local_Repos\MGAppSettings\Assemblies\MG.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,8 +66,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe" sign /f "$(ProjectDir)App.pfx" /p 8m9Le3FU#JYWp77 /t http://timestamp.globalsign.com/scripts/timstamp.dll "$(TargetDir)$(TargetFileName)"
+    <PostBuildEvent>"$(ProjectDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe" /out:"$(TargetDir)$(TargetName).new.dll" "$(TargetPath)" "$(TargetDir)MG.Attributes.dll"
 
-"$(ProjectDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe" /out:"$(TargetDir)$(TargetName).new.dll" "$(TargetPath)" "$(TargetDir)MG.Attributes.dll"</PostBuildEvent>
+"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe" sign /f "$(ProjectDir)App.pfx" /p 8m9Le3FU#JYWp77 /t http://timestamp.globalsign.com/scripts/timstamp.dll "$(TargetDir)$(TargetName).new.dll"
+
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

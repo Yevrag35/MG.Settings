@@ -1,40 +1,32 @@
 ﻿using MG;
+using MG.Attributes;
 using Microsoft.Win32;
 using System;
 using System.Reflection;
 
 namespace MG
 {
-    public partial class AppSettings : MGNameResolver
+    public sealed partial class AppSettings : MGNameResolver
     {
-        //private Enum GetByType(Type type)
-        //{
-        //    foreach (RegType r in (new RegType[] { RegType.Binary, RegType.DWord, RegType.String, RegType.QWord, RegType.MultiString }))
-        //    {
-        //        FieldInfo fi = r.GetType().GetField(r.ToString());
-        //        TypeAttribute ta = ((fi.GetCustomAttributes(typeof(TypeAttribute), false)) as TypeAttribute[])[0];
-        //        if (ta.Value.Equals(type))
-        //        {
-        //            return r;
-        //        }
-        //    }
-        //    // if you got here, something's wrong...
-        //    return null;
-        //}
-
-        //private RegistryValueKind GetRegKindValue(Enum _enum)
-        //{
-        //    Type type = _enum.GetType();
-        //    FieldInfo fi = type.GetField(_enum.ToString());
-        //    IdentifierAttribute att = ((fi.GetCustomAttributes(typeof(IdentifierAttribute), false)) as IdentifierAttribute[])[0];
-        //    return att.Value;
-        //}
-
-        //private RegistryValueKind Translate(object input)
-        //{
-        //    Type inType = input.GetType();
-        //    object o = MatchEnums(inType, typeof(RegType), typeof(TypeAttribute));
-        //    return (RegistryValueKind)GetValue(o, typeof(IdentifierAttribute));
-        //}
+        internal RegistryValueKind Translate(object o)
+        {
+            Type t = o.GetType();
+            Array allRegTypes = typeof(RegType).GetEnumValues();
+            foreach (RegType reg in allRegTypes)
+            {
+                var rType = GetAttributeValues<DualAttribute>(reg);
+                for (int e = 0; e < rType.Length; e++)
+                {
+                    object r = rType[e];
+                    if (r.Equals(t))
+                    {
+                        var regKind = (RegistryValueKind)FromAttToNonMatch<MGNameAttribute>
+                            (reg, typeof(RegistryValueKind))[0];
+                        return regKind;
+                    }
+                }
+            }
+            throw new ArgumentException("No RegistryValueKind matches the type of " + t.FullName + "!");
+        }
     }
 }

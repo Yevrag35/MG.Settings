@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MG
 {
-    public partial class AppSettings : MGNameResolver
+    public sealed partial class AppSettings : MGNameResolver
     {
         // SetProperties is only used for Constructors
         internal void SetProperties(IDictionary keyValuePairs)
@@ -39,10 +39,6 @@ namespace MG
                 _vals.Add(propName, propVal);
             }
         }
-        private bool ValueExists(string valName)
-        {
-            object val = _rk.GetValue(valName);
-            return val != null;
-        }
+        private bool ValueExists(string valName) => _rk.GetValue(valName) != null;
     }
 }

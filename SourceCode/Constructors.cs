@@ -1,11 +1,10 @@
 ﻿using MG.Exceptions;
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 
 namespace MG
 {
-    public partial class AppSettings
+    public sealed partial class AppSettings
     {
         private const string kv = "RegKey";
         public AppSettings(IDictionary propsAndDefVals)
@@ -30,7 +29,7 @@ namespace MG
 
         public AppSettings(string regKeyRoot, IDictionary propsAndDefVals)
         {
-            if (String.IsNullOrEmpty(rkstr))
+            if (string.IsNullOrEmpty(rkstr))
             {
                 rkstr = regKeyRoot;
             }

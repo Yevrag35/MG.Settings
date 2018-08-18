@@ -1,18 +1,18 @@
 ﻿using MG.Attributes;
-using Microsoft.Win32;
 using System;
 
 namespace MG
 {
     // This Enum translate incoming object 'types' into RegistryValueKinds
-    public enum RegType : int
+    internal enum RegType : int
     {
-        [MGName("String")]
-        [Type(typeof(String))]
+        [MGName("string")]
+        [Type(typeof(string))]
         String = 1
         ,
         [MGName("DWord")]
-        [Type(typeof(int))]
+        [MultiType(new Type[] {
+            typeof(int), typeof(bool) })]
         DWord = 2
         ,
         [MGName("QWord")]
@@ -20,7 +20,7 @@ namespace MG
         QWord = 3
         ,
         [MGName("Binary")]
-        [Type(typeof(Byte[]))]
+        [Type(typeof(byte[]))]
         Binary = 4
         ,
         [MGName("MultiString")]
