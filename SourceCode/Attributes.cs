@@ -3,6 +3,7 @@ using System;
 
 namespace MG.Attributes
 {
+
     public abstract class DualAttribute : MGAbstractAttribute
     {
         public DualAttribute(object o)
@@ -13,7 +14,7 @@ namespace MG.Attributes
 
     public class IdentifierAttribute : MGAbstractAttribute
     {
-        public IdentifierAttribute(RegistryValueKind regKind)
+        public IdentifierAttribute(RegistryValueKind[] regKind)
             : base(regKind)
         {
         }
@@ -21,16 +22,16 @@ namespace MG.Attributes
 
     public class TypeAttribute : DualAttribute
     {
-        public TypeAttribute(Type type)
+        public TypeAttribute(Type[] type)
             : base(type)
         {
         }
     }
-    public class MultiTypeAttribute : DualAttribute
-    {
-        public MultiTypeAttribute(Type[] types)
-            : base(types)
-        {
-        }
-    }
+    //public class MultiTypeAttribute : DualAttribute
+    //{
+    //    public MultiTypeAttribute(Type[] types)
+    //        : base(types)
+    //    {
+    //    }
+    //}
 }

@@ -6,22 +6,26 @@ using System.Reflection;
 
 namespace MG
 {
-    public sealed partial class AppSettings : MGNameResolver
+    public partial class AppSettings : MGNameResolver
     {
-        internal RegistryValueKind Translate(object o)
+        public RegistryValueKind Translate(object o)
         {
             Type t = o.GetType();
-            Array allRegTypes = typeof(RegType).GetEnumValues();
-            foreach (RegType reg in allRegTypes)
+            if (t.IsEnum)
             {
-                var rType = GetAttributeValues<DualAttribute>(reg);
-                for (int e = 0; e < rType.Length; e++)
+                t = typeof(Enum);
+            }
+            Array allRegTypes = typeof(RegType).GetEnumValues();
+            for (int i = 0; i < allRegTypes.Length; i++)
+            {
+                var workingEnum = (RegType)allRegTypes.GetValue(i);
+                var rt = GetAttributeValues<TypeAttribute>(workingEnum);
+                for (int e = 0; e < rt.Length; e++)
                 {
-                    object r = rType[e];
-                    if (r.Equals(t))
+                    var enumType = (Type)rt[e];
+                    if (enumType.Equals(t))
                     {
-                        var regKind = (RegistryValueKind)FromAttToNonMatch<MGNameAttribute>
-                            (reg, typeof(RegistryValueKind))[0];
+                        var regKind = (RegistryValueKind)GetAttributeValues<IdentifierAttribute>(workingEnum)[0];
                         return regKind;
                     }
                 }
