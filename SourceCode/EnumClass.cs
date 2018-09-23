@@ -1,6 +1,7 @@
 ﻿using MG.Attributes;
 using Microsoft.Win32;
 using System;
+using System.Numerics;
 
 namespace MG
 {
@@ -8,16 +9,16 @@ namespace MG
     internal enum RegType : int
     {
         [Identifier(new RegistryValueKind[1] { RegistryValueKind.String })]
-        [Type(new Type[1] { typeof(string) })]
+        [Type(new Type[2] { typeof(string), typeof(object) })]
         String = 1
         ,
         [Identifier(new RegistryValueKind[1] { RegistryValueKind.DWord })]
-        [Type(new Type[3] {
-            typeof(int), typeof(bool), typeof(Enum) })]
+        [Type(new Type[4] {
+            typeof(int), typeof(bool), typeof(Enum), typeof(uint) })]
         DWord = 2
         ,
         [Identifier(new RegistryValueKind[1] { RegistryValueKind.QWord })]
-        [Type(new Type[1] { typeof(long) })]
+        [Type(new Type[3] { typeof(long), typeof(BigInteger), typeof(ulong) })]
         QWord = 3
         ,
         [Identifier(new RegistryValueKind[1] { RegistryValueKind.Binary })]

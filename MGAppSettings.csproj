@@ -38,13 +38,14 @@
     <AssemblyOriginatorKeyFile>App.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MG.Attributes, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MG.Attributes, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Local_Repos\MGAppSettings\Assemblies\MG.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

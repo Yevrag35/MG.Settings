@@ -1,11 +1,12 @@
-﻿using Microsoft.Win32;
+﻿using MG.Attributes;
+using Microsoft.Win32;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
 
 namespace MG
 {
-    public sealed partial class AppSettings : MGNameResolver
+    public sealed partial class AppSettings : AttributeResolver
     {
         // SetProperties is only used for Constructors
         internal void SetProperties(IDictionary keyValuePairs)
