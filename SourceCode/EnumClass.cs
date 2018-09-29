@@ -18,7 +18,8 @@ namespace MG
         DWord = 2
         ,
         [Identifier(new RegistryValueKind[1] { RegistryValueKind.QWord })]
-        [Type(new Type[3] { typeof(long), typeof(BigInteger), typeof(ulong) })]
+        [Type(new Type[4] {
+            typeof(long), typeof(BigInteger), typeof(ulong), typeof(double) })]
         QWord = 3
         ,
         [Identifier(new RegistryValueKind[1] { RegistryValueKind.Binary })]

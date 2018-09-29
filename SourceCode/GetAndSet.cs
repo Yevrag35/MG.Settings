@@ -1,5 +1,6 @@
 ﻿using MG.Attributes;
 using Microsoft.Win32;
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
@@ -8,6 +9,25 @@ namespace MG
 {
     public sealed partial class AppSettings : AttributeResolver
     {
+        public T GetProperty<T>(string propName)
+        {
+            if (ValueExists(propName))
+            {
+                try
+                {
+                    var result = Convert.ChangeType(Properties[propName], typeof(T));
+                    return (T)result;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message + Environment.NewLine +
+                        "Offending Value: " + Properties[propName], e);
+                }
+
+            }
+            return default;
+        }
+
         // SetProperties is only used for Constructors
         internal void SetProperties(IDictionary keyValuePairs)
         {
@@ -40,6 +60,18 @@ namespace MG
                 _vals.Add(propName, propVal);
             }
         }
-        private bool ValueExists(string valName) => _rk.GetValue(valName) != null;
+        public bool ValueExists(string valName) => _rk.GetValue(valName) != null;
+
+        public bool DataExists(string valueName)
+        {
+            bool result = false;
+            if (ValueExists(valueName))
+            {
+                var kind = _rk.GetValueKind(valueName);
+                result = kind == RegistryValueKind.String ? 
+                    !string.IsNullOrEmpty((string)_rk.GetValue(valueName)) : true;
+            }
+            return result;
+        }
     }
 }
