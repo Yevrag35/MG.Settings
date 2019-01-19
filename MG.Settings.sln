@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MGAppSettings", "MGAppSettings.csproj", "{D78F2FDA-1C20-4F62-8403-DAA1FF05ED1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Settings.Registry", "MG.Settings.Registry\MG.Settings.Registry.csproj", "{D78F2FDA-1C20-4F62-8403-DAA1FF05ED1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
