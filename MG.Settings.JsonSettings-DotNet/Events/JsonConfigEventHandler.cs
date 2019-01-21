@@ -7,20 +7,30 @@ namespace MG.Settings.JsonSettings
 
     public class JsonConfigEventArgs : EventArgs
     {
-        public JsonConfigChangedActions Action { get; }
-        public IJsonConfig JsonConfig { get; }
+        public JsonConfigChangedAction Action { get; }
+        public IJsonSaver OldWrittenConfig { get; }
+        public IJsonSaver NewWrittenConfig { get; }
+        public string SettingName { get; }
+        public object SettingValue { get; }
 
-        public JsonConfigEventArgs(JsonConfigChangedActions action, IJsonConfig config)
-        {
+        public JsonConfigEventArgs(JsonConfigChangedAction action) =>
             Action = action;
-            JsonConfig = config;
+
+        public JsonConfigEventArgs(JsonConfigChangedAction action, string settingName, object settingValue)
+            : this(action)
+        {
+            SettingName = settingName;
+            SettingValue = settingValue;
         }
+
     }
 
-    public enum JsonConfigChangedActions
+    public enum JsonConfigChangedAction
     {
         Add = 0,
-        Removed = 1,
-        Update = 2
+        Remove = 1,
+        Update = 2,
+        Save = 3,
+        Read = 4
     }
 }

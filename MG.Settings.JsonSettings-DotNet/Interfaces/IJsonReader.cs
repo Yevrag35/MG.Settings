@@ -6,7 +6,11 @@ namespace MG.Settings.JsonSettings
 {
     public interface IJsonReader
     {
+        event JsonConfigEventHandler ConfigReadFrom;
 
-        IJsonConfig ReadConfig();
+        object GetSetting(string settingName);
+        T GetSetting<T>(string settingName);
+
+        JObject ReadConfig(string pathToConfig);
     }
 }

@@ -1,2 +1,2 @@
 Import-Module .\MG.Settings.JsonSettings.dll -ea Stop;
-$set = New-Object MG.Settings.JsonSettings;
+$cfg = New-Object MG.Settings.JsonSettings.ConfigManager("$desk\config.json");

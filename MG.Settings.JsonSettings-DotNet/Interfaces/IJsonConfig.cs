@@ -1,11 +1,18 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
+using System.IO;
 
 namespace MG.Settings.JsonSettings
 {
-    public interface IJsonConfig
+    public interface IJsonConfig : IJsonSaver
     {
-        event JsonConfigEventHandler JsonConfigChanged;
+        IDictionary DefaultSettings { get; }
+        FileInfo ConfigFile { get; }
+        JsonSerializerSettings Serializer { get; set; }
+
+        string MakeNewConfig(string fullPath);
+
+        string ToJson(Formatting asFormat, bool useCamelCase);
     }
 }

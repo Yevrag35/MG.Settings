@@ -38,14 +38,20 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseJsonConfig.cs" />
+    <Compile Include="Interfaces\IJsonSaver.cs" />
+    <Compile Include="TestConfig.cs" />
+    <Compile Include="ConfigManager.cs" />
+    <Compile Include="Events\PropertyMapperEventHandler.cs" />
+    <Compile Include="Interfaces\IJsonConfig.cs" />
+    <Compile Include="Interfaces\IJsonReader.cs" />
+    <Compile Include="Events\JsonConfigEventHandler.cs" />
+    <Compile Include="Interfaces\IJsonRemover.cs" />
+    <Compile Include="Interfaces\IJsonWriter.cs" />
+    <Compile Include="Interfaces\IPropertyMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,5 +62,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
