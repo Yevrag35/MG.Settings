@@ -13,23 +13,6 @@ namespace MG.Settings.JsonSettings
 
         private SettingsDictionary() => _entries = new List<KeyValuePair<string, object>>();
 
-        public SettingsDictionary(JObject job)
-            : this()
-        {
-            var serializer = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Include
-            };
-            string jsonStr = JsonConvert.SerializeObject(job, serializer);
-            var dict = JsonConvert.DeserializeObject<Dictionary<object, object>>(jsonStr, serializer);
-            foreach (var key in dict.Keys)
-            {
-                string keyStr = Convert.ToString(key);
-                object keyVal = dict[key];
-                _entries.Add(new KeyValuePair<string, object>(keyStr, keyVal));
-            }
-        }
-
         public SettingsDictionary(IDictionary dictionaryBase)
             : this()
         {
