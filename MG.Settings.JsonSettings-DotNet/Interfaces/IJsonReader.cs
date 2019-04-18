@@ -8,7 +8,6 @@ namespace MG.Settings.JsonSettings
     {
         event JsonConfigEventHandler ConfigReadFrom;
 
-        object GetSetting(string settingName);
         T GetSetting<T>(string settingName);
 
         JObject ReadConfig(string pathToConfig);

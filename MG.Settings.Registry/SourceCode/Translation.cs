@@ -16,18 +16,18 @@ namespace MG
             {
                 t = typeof(Enum);
             }
-            var allRegTypes = GetEnumValues<RegType>();
+            var allRegTypes = ((IAttributeResolver)this).GetEnumValues<RegType>();
             for (int r = 0; r < allRegTypes.Length; r++)
             {
                 var rk = allRegTypes[r];
 
-                var rTypes = GetAttributeValues<Type>(rk, typeof(TypeAttribute));
+                var rTypes = ((IAttributeResolver)this).GetAttributeValues<Type>(rk, typeof(TypeAttribute));
                 for (int i = 0; i < rTypes.Length; i++)
                 {
                     var rType = rTypes[i];
                     if (rType.Equals(t))
                     {
-                        var regKind = GetAttributeValue<RegistryValueKind>(rk, typeof(IdentifierAttribute));
+                        var regKind = ((IAttributeResolver)this).GetAttributeValue<RegistryValueKind>(rk, typeof(IdentifierAttribute));
                         return regKind;
                     }
                 }

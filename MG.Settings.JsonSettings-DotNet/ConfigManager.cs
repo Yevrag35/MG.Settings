@@ -2,11 +2,12 @@
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MG.Settings.JsonSettings
 {
-    public class ConfigManager : IJsonReader, IJsonRemover, IJsonWriter, IJsonSaver
+    public partial class ConfigManager : IJsonReader, IJsonRemover, IJsonWriter, IJsonSaver
     {
         public event JsonConfigEventHandler ConfigReadFrom;
         public event JsonConfigEventHandler ConfigChanged;
@@ -18,6 +19,8 @@ namespace MG.Settings.JsonSettings
         public string ConfigFilePath { get; private set; }
         public int? Count => _job != null ? _job.Count : (int?)null;
         public bool? HasSettings => _job != null ? _job.HasValues : (bool?)null;
+
+        public Dictionary<string, object> AppSettings { get; private set; }
 
         public ConfigManager() { }
 
@@ -45,34 +48,46 @@ namespace MG.Settings.JsonSettings
 
         #endregion
 
-        public object GetSetting(string settingName) => this.GetSetting<object>(settingName);
+        //public object GetSetting(string settingName) => this.GetSetting<object>(settingName);
 
-        public T GetSetting<T>(string settingName) => _job[settingName].ToObject<T>();
+        public T GetSetting<T>(string settingName) => (T)this.AppSettings[settingName];
 
-        public JObject ReadConfig(string pathToConfig)
+        JObject IJsonReader.ReadConfig(string pathToConfig)
+        {
+            return null;
+        }
+
+        public void ReadConfig(string pathToConfig)
         {
             string jsonStr = File.ReadAllText(pathToConfig);
-            _job = JsonConvert.DeserializeObject<JObject>(jsonStr);
+            //_job = JsonConvert.DeserializeObject<JObject>(jsonStr);
             ConfigFilePath = pathToConfig;
             this.OnConfigReadFrom();
-            return _job;
+
+            this.AppSettings = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonStr);
         }
 
         public void SaveConfig()
         {
-            if (_job == null)
+            if (this.AppSettings == null)
                 throw new InvalidOperationException("You must read a config file before you can save!");
 
-            string backToStr = JsonConvert.SerializeObject(_job, Formatting.Indented);
+            var serializer = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Include,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            string backToStr = JsonConvert.SerializeObject(this.AppSettings, Formatting.Indented, serializer);
             File.WriteAllText(ConfigFilePath, backToStr);
             this.OnConfigSaved();
         }
 
         public void RemoveSetting(string settingName)
         {
-            object value = _job[settingName].ToObject<object>();
-            _job.Remove(settingName);
-            this.OnConfigAddRemove(JsonConfigChangedAction.Remove, settingName, value);
+            //object value = this.AppSettings[settingName];
+            //.Remove(settingName);
+            this.OnConfigAddRemove(JsonConfigChangedAction.Remove, settingName, null);
         }
 
         public bool WriteSetting(string settingName, object settingValue)
