@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace MG.Settings.JsonSettings
 {
-    public class SettingsDictionary : ISettingsDictionary
+    internal class SettingsDictionary : ISettingsDictionary
     {
         private List<KeyValuePair<string, object>> _entries;
 
         private SettingsDictionary() => _entries = new List<KeyValuePair<string, object>>();
 
-        public SettingsDictionary(IDictionary dictionaryBase)
+        private SettingsDictionary(IDictionary dictionaryBase)
             : this()
         {
             object[] keys = dictionaryBase.Keys.Cast<object>().ToArray();
@@ -48,8 +48,12 @@ namespace MG.Settings.JsonSettings
                 {
                     _entries.RemoveAt(index.Value);
                     _entries.Add(new KeyValuePair<string, object>(key, value));
-                    _entries.Sort(new SettingsComparer());
                 }
+                else
+                {
+                    _entries.Add(new KeyValuePair<string, object>(key, value));
+                }
+                _entries.Sort(new SettingsComparer());
             }
         }
 
@@ -134,6 +138,9 @@ namespace MG.Settings.JsonSettings
         #endregion
 
         public IEnumerator GetEnumerator() => _entries.GetEnumerator();
+
+        public static ISettingsDictionary NewSettingsDictionary(IDictionary kvps) =>
+            new SettingsDictionary(kvps);
     }
 
     public class SettingsComparer : IComparer<KeyValuePair<string, object>>

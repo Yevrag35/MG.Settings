@@ -41,13 +41,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SettingsManager.cs" />
+    <None Include="ConfigEquality.cs" />
     <Compile Include="Interfaces\ISettingsDictionary.cs" />
     <Compile Include="SettingsDictionary.cs" />
     <None Include="BaseJsonConfig.cs" />
     <Compile Include="CreateNewConfig.cs" />
     <Compile Include="Interfaces\IJsonSaver.cs" />
     <None Include="TestConfig.cs" />
-    <Compile Include="ConfigManager.cs" />
+    <Compile Include="JSONConfigManager.cs" />
     <Compile Include="Events\PropertyMapperEventHandler.cs" />
     <Compile Include="Interfaces\IJsonConfig.cs" />
     <Compile Include="Interfaces\IJsonReader.cs" />

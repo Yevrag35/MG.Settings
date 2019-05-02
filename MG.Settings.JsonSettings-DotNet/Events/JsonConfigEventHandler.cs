@@ -31,6 +31,7 @@ namespace MG.Settings.JsonSettings
         Remove = 1,
         Update = 2,
         Save = 3,
-        Read = 4
+        Read = 4,
+        Loaded = 5
     }
 }

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace MG.Settings.JsonSettings
 {
-    public partial class ConfigManager : IJsonReader, IJsonRemover, IJsonWriter, IJsonSaver, IEnumerable
+    public partial class JSONConfigManager : IJsonReader, IJsonRemover, IJsonWriter, IJsonSaver, IEnumerable
     {
         public event JsonConfigEventHandler ConfigReadFrom;
         public event JsonConfigEventHandler ConfigChanged;
@@ -20,11 +20,11 @@ namespace MG.Settings.JsonSettings
         public string ConfigFilePath { get; private set; }
         //public int? Count => _job != null ? _job.Count : (int?)null;
 
-        public ISettingsDictionary AppSettings { get; private set; }
+        //public ISettingsDictionary AppSettings { get; private set; }
 
-        public ConfigManager() { }
+        public JSONConfigManager() { }
 
-        public ConfigManager(string pathToConfig) => this.ReadConfig(pathToConfig);
+        public JSONConfigManager(string pathToConfig) => this.ReadConfig(pathToConfig);
 
         public IEnumerator GetEnumerator() => _job.GetEnumerator();
 
@@ -64,14 +64,14 @@ namespace MG.Settings.JsonSettings
             _job = JsonConvert.DeserializeObject<JObject>(jsonStr);
             ConfigFilePath = pathToConfig;
 
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonStr);
-            this.AppSettings = new SettingsDictionary(dict);
+            //var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonStr);
+            //this.AppSettings = new SettingsDictionary(dict);
             this.OnConfigReadFrom();
         }
 
         public void SaveConfig()
         {
-            if (this.AppSettings == null)
+            if (_job == null)
                 throw new InvalidOperationException("You must read a config file before you can save!");
 
             var serializer = new JsonSerializerSettings
@@ -80,7 +80,7 @@ namespace MG.Settings.JsonSettings
                 MissingMemberHandling = MissingMemberHandling.Ignore
             };
 
-            string backToStr = JsonConvert.SerializeObject(this.AppSettings, Formatting.Indented, serializer);
+            string backToStr = JsonConvert.SerializeObject(_job, Formatting.Indented, serializer);
             File.WriteAllText(ConfigFilePath, backToStr);
             this.OnConfigSaved();
         }
@@ -114,5 +114,7 @@ namespace MG.Settings.JsonSettings
 
             return result;
         }
+
+        internal JObject GetUnderlyingObject() => _job;
     }
 }

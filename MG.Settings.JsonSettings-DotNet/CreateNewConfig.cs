@@ -6,9 +6,9 @@ using System.IO;
 
 namespace MG.Settings.JsonSettings
 {
-    public partial class ConfigManager
+    public partial class JSONConfigManager
     {
-        public static ConfigManager NewConfig(string pathToNewConfig, JContainer defaultSettings)
+        public static JSONConfigManager NewConfig(string pathToNewConfig, JContainer defaultSettings)
         {
             var serializer = new JsonSerializerSettings
             {
@@ -17,19 +17,19 @@ namespace MG.Settings.JsonSettings
             return NewConfig(pathToNewConfig, defaultSettings, serializer);
         }
 
-        public static ConfigManager NewConfig(string pathToNewConfig, JContainer defaultSettings, JsonSerializerSettings serializerSettings)
+        public static JSONConfigManager NewConfig(string pathToNewConfig, JContainer defaultSettings, JsonSerializerSettings serializerSettings)
         {
             string jsonString = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented, serializerSettings);
             File.WriteAllText(pathToNewConfig, jsonString);
 
-            ConfigManager configMan = null;
+            JSONConfigManager configMan = null;
             if (File.Exists(pathToNewConfig))
-                configMan = new ConfigManager(pathToNewConfig);
+                configMan = new JSONConfigManager(pathToNewConfig);
 
             return configMan;
         }
 
-        public static ConfigManager NewConfig(string pathToNewConfig, IDictionary defaultSettings)
+        public static JSONConfigManager NewConfig(string pathToNewConfig, IDictionary defaultSettings)
         {
             var serializer = new JsonSerializerSettings
             {
@@ -38,9 +38,9 @@ namespace MG.Settings.JsonSettings
             string jsonString = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented, serializer);
             File.WriteAllText(pathToNewConfig, jsonString);
 
-            ConfigManager configMan = null;
+            JSONConfigManager configMan = null;
             if (File.Exists(pathToNewConfig))
-                configMan = new ConfigManager(pathToNewConfig);
+                configMan = new JSONConfigManager(pathToNewConfig);
 
             return configMan;
         }
