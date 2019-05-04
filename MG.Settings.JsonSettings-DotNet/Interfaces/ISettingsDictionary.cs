@@ -13,6 +13,8 @@ namespace MG.Settings.JsonSettings
 
         int Count { get; }
 
+        void Clear();
+
         void ChangeAll(object newValue, Func<KeyValuePair<string, object>, bool> match);
 
         int? IndexOf(string settingName);
@@ -20,7 +22,11 @@ namespace MG.Settings.JsonSettings
         KeyValuePair<string, object> Find(Predicate<KeyValuePair<string, object>> match);
         object FindValue(Predicate<KeyValuePair<string, object>> match);
 
+        void Reload(IDictionary dictionary);
+
         void Remove(string settingName);
+
+        void Sort();
 
         Dictionary<string, object> ToDictionary();
         Dictionary<string, T> ToDictionary<T>();

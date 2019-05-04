@@ -12,7 +12,7 @@ namespace MG.Settings.JsonSettings
     {
         public event JsonConfigEventHandler ConfigReadFrom;
         public event JsonConfigEventHandler ConfigChanged;
-        public event JsonConfigEventHandler ConfigRemoved;
+        public event JsonConfigEventHandler ConfigRemovedFrom;
         public event JsonConfigEventHandler ConfigWrittenTo;
 
         private JObject _job;
@@ -39,8 +39,8 @@ namespace MG.Settings.JsonSettings
             if (action == JsonConfigChangedAction.Add && this.ConfigWrittenTo != null)
                 this.ConfigWrittenTo(this, new JsonConfigEventArgs(action, name, value));
 
-            else if (action == JsonConfigChangedAction.Remove && this.ConfigRemoved != null)
-                this.ConfigRemoved(this, new JsonConfigEventArgs(action, name, value));
+            else if (action == JsonConfigChangedAction.Remove && this.ConfigRemovedFrom != null)
+                this.ConfigRemovedFrom(this, new JsonConfigEventArgs(action, name, value));
         }
         private void OnConfigSaved()
         {

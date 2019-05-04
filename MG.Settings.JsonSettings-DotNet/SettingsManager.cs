@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace MG.Settings.JsonSettings
 {
-    public class SettingsManager : IJsonSaver
+    public class SettingsManager : IJsonReader, IJsonRemover, IJsonSaver, IJsonWriter
     {
         private static readonly JsonSerializerSettings serializer = new JsonSerializerSettings
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //ContractResolver = new CamelCasePropertyNamesContractResolver(),
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateTimeZoneHandling = DateTimeZoneHandling.Local,
             Formatting = Formatting.Indented,
@@ -25,10 +25,11 @@ namespace MG.Settings.JsonSettings
 
         #region EVENTS
 
-        public event JsonConfigEventHandler ConfigReadFrom;
         public event JsonConfigEventHandler ConfigLoaded;
-        public event JsonConfigEventHandler ConfigWrittenTo;
+        public event JsonConfigEventHandler ConfigReadFrom;
+        public event JsonConfigEventHandler ConfigReloaded;
         public event JsonConfigEventHandler ConfigRemovedFrom;
+        public event JsonConfigEventHandler ConfigWrittenTo;
         public event JsonConfigEventHandler ConfigSaved;
 
         private void OnConfigReadFrom()
@@ -40,6 +41,11 @@ namespace MG.Settings.JsonSettings
         {
             if (this.ConfigReadFrom != null)
                 this.ConfigReadFrom(this, new JsonConfigEventArgs(JsonConfigChangedAction.Read, settingName, settingValue));
+        }
+        private void OnConfigReloaded()
+        {
+            if (this.ConfigReloaded != null)
+                this.ConfigReloaded(this, new JsonConfigEventArgs(JsonConfigChangedAction.Reloaded));
         }
         private void OnConfigLoaded()
         {
@@ -70,11 +76,13 @@ namespace MG.Settings.JsonSettings
         public ISettingsDictionary Settings => _iset;
         public string Path { get; private set; }
 
-        public SettingsManager() { }
+        //public SettingsManager() { }
 
         public SettingsManager(string pathToConfig) => this.ReadConfig(pathToConfig);
 
-        private T Cast<T>(dynamic o) => (T)o;
+        private T Cast<T>(dynamic o) => o != null
+            ? (T)o
+            : default;
 
         public object GetSetting(string setting)
         {
@@ -89,32 +97,7 @@ namespace MG.Settings.JsonSettings
             if (_even)
                 this.OnConfigReadFrom();
             return Cast<T>(value);
-        }
-
-        public void RemoveSetting(string setting)
-        {
-            object origObj = _iset[setting];
-            _iset.Remove(setting);
-            if (_even)
-                this.OnConfigAddRemove(JsonConfigChangedAction.Remove, setting, origObj);
-        }
-
-        public void SaveSetting(string setting, object value)
-        {
-            _iset[setting] = value;
-            if (_even)
-                this.OnConfigAddRemove(JsonConfigChangedAction.Add, setting, value);
-        }
-
-        public void SaveConfig()
-        {
-            var dict = _iset.ToDictionary();
-            string jsonStr = JsonConvert.SerializeObject(dict, serializer);
-            File.WriteAllText(this.Path, jsonStr);
-
-            if (_even)
-                this.OnConfigSaved();
-        }
+        }      
 
         public void ReadConfig(string pathToConfig)
         {
@@ -127,6 +110,43 @@ namespace MG.Settings.JsonSettings
                 if (_even)
                     this.OnConfigLoaded();
             }
+        }
+
+        public void Reload()
+        {
+            if (File.Exists(this.Path))
+            {
+                string allText = File.ReadAllText(this.Path);
+                var dic = JsonConvert.DeserializeObject<Dictionary<string, object>>(allText, serializer);
+                _iset.Reload(dic);
+                if (_even)
+                    this.OnConfigReloaded();
+            }
+        }
+
+        public void RemoveSetting(string setting)
+        {
+            object origObj = _iset[setting];
+            _iset.Remove(setting);
+            if (_even)
+                this.OnConfigAddRemove(JsonConfigChangedAction.Remove, setting, origObj);
+        }
+
+        public void SaveConfig()
+        {
+            var dict = _iset.ToDictionary();
+            string jsonStr = JsonConvert.SerializeObject(dict, serializer);
+            File.WriteAllText(this.Path, jsonStr);
+
+            if (_even)
+                this.OnConfigSaved();
+        }
+
+        public void WriteSetting(string setting, object value)
+        {
+            _iset[setting] = value;
+            if (_even)
+                this.OnConfigAddRemove(JsonConfigChangedAction.Add, setting, value);
         }
     }
 }

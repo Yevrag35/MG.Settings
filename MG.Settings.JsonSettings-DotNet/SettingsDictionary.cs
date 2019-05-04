@@ -23,6 +23,7 @@ namespace MG.Settings.JsonSettings
                 object value = dictionaryBase[strKey];
                 _entries.Add(new KeyValuePair<string, object>(strKey, value));
             }
+            this.Sort();
         }
 
         object ISettingsDictionary.this[string key]
@@ -33,7 +34,7 @@ namespace MG.Settings.JsonSettings
                 for (int i = 0; i < _entries.Count; i++)
                 {
                     var entry = _entries[i];
-                    if (entry.Key == key)
+                    if (entry.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))
                     {
                         result = entry.Value;
                         break;
@@ -53,11 +54,13 @@ namespace MG.Settings.JsonSettings
                 {
                     _entries.Add(new KeyValuePair<string, object>(key, value));
                 }
-                _entries.Sort(new SettingsComparer());
+                this.Sort();
             }
         }
 
         int ISettingsDictionary.Count => _entries.Count;
+
+        void ISettingsDictionary.Clear() => _entries.Clear();
 
         int? ISettingsDictionary.IndexOf(string settingName)
         {
@@ -74,6 +77,19 @@ namespace MG.Settings.JsonSettings
             return result;
         }
 
+        void ISettingsDictionary.Reload(IDictionary dictionaryBase)
+        {
+            _entries.Clear();
+            object[] keys = dictionaryBase.Keys.Cast<object>().ToArray();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string strKey = Convert.ToString(keys[i]);
+                object value = dictionaryBase[strKey];
+                _entries.Add(new KeyValuePair<string, object>(strKey, value));
+            }
+            this.Sort();
+        }
+
         void ISettingsDictionary.Remove(string settingName)
         {
             for (int i = _entries.Count; i >= 0; i--)
@@ -85,7 +101,10 @@ namespace MG.Settings.JsonSettings
                     break;
                 }
             }
+            this.Sort();
         }
+
+        public void Sort() => _entries.Sort(new SettingsComparer());
 
         #region LINQ OPERATIONS
         KeyValuePair<string, object> ISettingsDictionary.Find(Predicate<KeyValuePair<string, object>> match) => _entries.Find(match);
@@ -106,7 +125,7 @@ namespace MG.Settings.JsonSettings
                 }
             }
             _entries.AddRange(newList);
-            _entries.Sort(new SettingsComparer());
+            this.Sort();
         }
 
         #endregion

@@ -10,6 +10,6 @@ namespace MG.Settings.JsonSettings
     {
         event JsonConfigEventHandler ConfigWrittenTo;
 
-        bool WriteSetting(string settingName, object settingValue);
+        void WriteSetting(string settingName, object settingValue);
     }
 }
