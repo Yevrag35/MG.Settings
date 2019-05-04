@@ -97,7 +97,26 @@ namespace MG.Settings.JsonSettings
             if (_even)
                 this.OnConfigReadFrom();
             return Cast<T>(value);
-        }      
+        }
+
+        public bool NewConfig(string pathToConfig, IDictionary baseSettings)
+        {
+            bool result = false;
+            try
+            {
+                string jsonStr = JsonConvert.SerializeObject(baseSettings, serializer);
+                File.WriteAllText(pathToConfig, jsonStr);
+                _iset = SettingsDictionary.NewSettingsDictionary(baseSettings);
+                this.Path = pathToConfig;
+                if (_even)
+                    this.OnConfigLoaded();
+
+                result = true;
+            }
+            catch (Exception) { }
+
+            return result;
+        }
 
         public void ReadConfig(string pathToConfig)
         {
