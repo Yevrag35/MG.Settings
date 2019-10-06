@@ -36,11 +36,12 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>App.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MG.Attributes">
-      <HintPath>Assemblies\MG.Attributes.dll</HintPath>
+      <HintPath>D:\Local_Repos\MG.Settings\MG.Settings.Registry\Assemblies\MG.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,7 +60,6 @@
     <Compile Include="SourceCode\Translation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.pfx" />
     <Content Include="DebugScript.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

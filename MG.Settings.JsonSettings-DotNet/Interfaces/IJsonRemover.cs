@@ -8,7 +8,7 @@ namespace MG.Settings.JsonSettings
 {
     public interface IJsonRemover
     {
-        event JsonConfigEventHandler ConfigRemoved;
+        event JsonConfigEventHandler ConfigRemovedFrom;
 
         void RemoveSetting(string settingName);
     }

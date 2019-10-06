@@ -2,26 +2,31 @@
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MG.Settings.JsonSettings
 {
-    public class ConfigManager : IJsonReader, IJsonRemover, IJsonWriter, IJsonSaver
+    public partial class JSONConfigManager : IJsonReader, IJsonRemover, IJsonWriter, IJsonSaver, IEnumerable
     {
         public event JsonConfigEventHandler ConfigReadFrom;
         public event JsonConfigEventHandler ConfigChanged;
-        public event JsonConfigEventHandler ConfigRemoved;
+        public event JsonConfigEventHandler ConfigRemovedFrom;
         public event JsonConfigEventHandler ConfigWrittenTo;
 
         private JObject _job;
 
         public string ConfigFilePath { get; private set; }
-        public int? Count => _job != null ? _job.Count : (int?)null;
-        public bool? HasSettings => _job != null ? _job.HasValues : (bool?)null;
+        //public int? Count => _job != null ? _job.Count : (int?)null;
 
-        public ConfigManager() { }
+        //public ISettingsDictionary AppSettings { get; private set; }
 
-        public ConfigManager(string pathToConfig) => this.ReadConfig(pathToConfig);
+        public JSONConfigManager() { }
+
+        public JSONConfigManager(string pathToConfig) => this.ReadConfig(pathToConfig);
+
+        public IEnumerator GetEnumerator() => _job.GetEnumerator();
 
         #region EVENTS
         private void OnConfigReadFrom()
@@ -34,8 +39,8 @@ namespace MG.Settings.JsonSettings
             if (action == JsonConfigChangedAction.Add && this.ConfigWrittenTo != null)
                 this.ConfigWrittenTo(this, new JsonConfigEventArgs(action, name, value));
 
-            else if (action == JsonConfigChangedAction.Remove && this.ConfigRemoved != null)
-                this.ConfigRemoved(this, new JsonConfigEventArgs(action, name, value));
+            else if (action == JsonConfigChangedAction.Remove && this.ConfigRemovedFrom != null)
+                this.ConfigRemovedFrom(this, new JsonConfigEventArgs(action, name, value));
         }
         private void OnConfigSaved()
         {
@@ -45,17 +50,23 @@ namespace MG.Settings.JsonSettings
 
         #endregion
 
-        public object GetSetting(string settingName) => this.GetSetting<object>(settingName);
+        //public object GetSetting(string settingName) => this.GetSetting<object>(settingName);
 
-        public T GetSetting<T>(string settingName) => _job[settingName].ToObject<T>();
+        public T GetSetting<T>(string settingName) => _job[settingName].Value<T>();
 
-        public JObject ReadConfig(string pathToConfig)
+        public T GetSettingFromPath<T>(string settingPath) => _job.SelectToken(settingPath).Value<T>();
+
+        JObject IJsonReader.ReadConfig(string pathToConfig) => ReadFromConfig<JObject>(pathToConfig);
+
+        public void ReadConfig(string pathToConfig)
         {
             string jsonStr = File.ReadAllText(pathToConfig);
             _job = JsonConvert.DeserializeObject<JObject>(jsonStr);
             ConfigFilePath = pathToConfig;
+
+            //var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonStr);
+            //this.AppSettings = new SettingsDictionary(dict);
             this.OnConfigReadFrom();
-            return _job;
         }
 
         public void SaveConfig()
@@ -63,16 +74,28 @@ namespace MG.Settings.JsonSettings
             if (_job == null)
                 throw new InvalidOperationException("You must read a config file before you can save!");
 
-            string backToStr = JsonConvert.SerializeObject(_job, Formatting.Indented);
+            var serializer = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Include,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            string backToStr = JsonConvert.SerializeObject(_job, Formatting.Indented, serializer);
             File.WriteAllText(ConfigFilePath, backToStr);
             this.OnConfigSaved();
         }
 
         public void RemoveSetting(string settingName)
         {
-            object value = _job[settingName].ToObject<object>();
-            _job.Remove(settingName);
-            this.OnConfigAddRemove(JsonConfigChangedAction.Remove, settingName, value);
+            JToken val = _job[settingName];
+            val.Remove();
+            this.OnConfigAddRemove(JsonConfigChangedAction.Remove, settingName, val);
+        }
+        public void RemoveSettingByPath(string settingPath)
+        {
+            JToken val = _job.SelectToken(settingPath);
+            val.Remove();
+            this.OnConfigAddRemove(JsonConfigChangedAction.Remove, settingPath, val);
         }
 
         public bool WriteSetting(string settingName, object settingValue)
@@ -91,5 +114,7 @@ namespace MG.Settings.JsonSettings
 
             return result;
         }
+
+        internal JObject GetUnderlyingObject() => _job;
     }
 }
