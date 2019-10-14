@@ -34,7 +34,7 @@ namespace MG.Settings.Json
             get => _enc;
             set => _enc = value ?? throw new ArgumentNullException("Encoding");
         }
-        protected bool Exists => !string.IsNullOrEmpty(_filePath) && File.Exists(_filePath);
+        public bool Exists => !string.IsNullOrEmpty(_filePath) && File.Exists(_filePath);
         public string FilePath
         {
             get => _filePath;

@@ -52,7 +52,7 @@
     <Compile Include="src\Interfaces\IJsonSettings.cs" />
     <Compile Include="src\SettingsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Testing\MySettingManager.cs" />
+    <None Include="Testing\MySettingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DebugScript.ps1">
