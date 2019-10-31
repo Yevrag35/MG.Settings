@@ -1,1 +1,0 @@
-Import-Module .\MG.Settings.Registry.dll -ea Stop;
