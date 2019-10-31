@@ -102,7 +102,31 @@ namespace MG.Settings.Json
             else
                 JsonConvert.PopulateObject(rawJson, this);
         }
-        public abstract void Save();
+        //public abstract void Save();
+        public virtual void Save()
+        {
+            using (var streamWriter = new StreamWriter(this.FilePath))
+            {
+                using (var jsonWriter = new JsonTextWriter(streamWriter)
+                {
+                    AutoCompleteOnClose = true,
+                    CloseOutput = true,
+                    DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                    DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                    Formatting = Formatting.Indented,
+                    Indentation = 1,
+                    IndentChar = char.Parse("\t")
+                })
+                {
+                    ((IJsonSettings)this).Save(jsonWriter);
+                }
+            }
+        }
+        void ISavable.Save(JsonTextWriter jsonWriter)
+        {
+            var converter = new StringEnumConverter(new CamelCaseNamingStrategy());
+            ((IJsonSettings)this).SettingsAsJson.WriteTo(jsonWriter, converter);
+        }
         //public void Save()
         //{
         //    if (string.IsNullOrEmpty(_filePath))
