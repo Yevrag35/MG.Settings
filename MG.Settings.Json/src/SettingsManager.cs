@@ -89,7 +89,8 @@ namespace MG.Settings.Json
                 ? JsonConvert.DeserializeObject<T>(rawJson, serializer)
                 : JsonConvert.DeserializeObject<T>(rawJson);
         }
-        public void Read()
+        void IReadable.Read() => this.Read();
+        public virtual void Read(SettingChangedAction action = SettingChangedAction.Read)
         {
             if (string.IsNullOrEmpty(_filePath))
                 throw new ArgumentNullException("FilePath");
@@ -101,6 +102,8 @@ namespace MG.Settings.Json
             
             else
                 JsonConvert.PopulateObject(rawJson, this);
+
+            this.OnSettingsChanged(new SettingsChangedEventArgs(action));
         }
         //public abstract void Save();
         public virtual void Save()
