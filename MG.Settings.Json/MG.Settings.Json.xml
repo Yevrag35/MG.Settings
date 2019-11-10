@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MG.Settings.Json</name>
+    </assembly>
+    <members>
+        <member name="T:MG.Settings.Json.SettingsChangedEventHandler">
+            <summary>
+            An delegate to register for handling events when the <see cref="T:MG.Settings.Json.JsonSettingsManager"/> has it settings altered.
+            </summary>
+            <param name="sender">The <see cref="T:MG.Settings.Json.JsonSettingsManager"/> instance which experienced the alteration.</param>
+            <param name="e">The event arguments associated with the triggered event.</param>
+        </member>
+        <member name="T:MG.Settings.Json.SettingsChangedEventArgs">
+            <summary>
+            A class representing the event data data stored when a setting is altered.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.Action">
+            <summary>
+            The action that was performed on the setting.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.NewItems">
+            <summary>
+            A list of settings and their values that were added or updated.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.NewSettings">
+            <summary>
+            The whole instance of the new settings.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.NewValue">
+            <summary>
+            The replacement value for an altered setting.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.OldItems">
+            <summary>
+            A list of settings and their values that were overwritten or removed.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.OldSettings">
+            <summary>
+            The whole instance of the old settings.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.OldValue">
+            <summary>
+            The overwritten value for an altered setting.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.SettingsChangedEventArgs.PropertyName">
+            <summary>
+            The name of the setting or property that was altered.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.SettingsChangedEventArgs.#ctor(MG.Settings.Json.SettingChangedAction)">
+            <summary>
+            The default constructor specifying the action that took place.
+            </summary>
+            <param name="action">The specific action that triggered the event.</param>
+        </member>
+        <member name="M:MG.Settings.Json.SettingsChangedEventArgs.#ctor(MG.Settings.Json.SettingChangedAction,System.String,System.Object,System.Object)">
+            <summary>
+            Initializes a <see cref="T:MG.Settings.Json.SettingsChangedEventArgs"/> instance with the specific action that altered
+            the given property/setting, also specifying its old and new values.
+            </summary>
+            <param name="action">The specific action that triggered the event.</param>
+            <param name="propertyName">The name of the setting or property that was altered.</param>
+            <param name="oldValue">The setting's old value.</param>
+            <param name="newValue">The setting's new value.</param>
+        </member>
+        <member name="M:MG.Settings.Json.SettingsChangedEventArgs.#ctor(MG.Settings.Json.SettingChangedAction,System.Collections.IList,System.Collections.IList)">
+            <summary>
+            Initializes a <see cref="T:MG.Settings.Json.SettingsChangedEventArgs"/> instance with the specific action with the 
+            old settings and new settings.
+            </summary>
+            <param name="action">The specific action that triggered the event.</param>
+            <param name="newItems">The list of settings and their values that were added or updated.</param>
+            <param name="oldItems">The list of settings and their values that were overwritten or removed.</param>
+        </member>
+        <member name="M:MG.Settings.Json.SettingsChangedEventArgs.#ctor(MG.Settings.Json.SettingChangedAction,MG.Settings.Json.IJsonSettings,MG.Settings.Json.IJsonSettings)">
+            <summary>
+            Initializes a <see cref="T:MG.Settings.Json.SettingsChangedEventArgs"/> instance with the specific action.
+            An entire copy of the old and new settings is also specified.
+            </summary>
+            <param name="action">The specific action that triggered the event.</param>
+            <param name="newSettings">An object representing the new applied settings.</param>
+            <param name="oldSettings">An object representing the old settings that were overwritten.</param>
+        </member>
+        <member name="T:MG.Settings.Json.SettingChangedAction">
+            <summary>
+            An enumeration for different types of alteration methods.
+            </summary>
+        </member>
+        <member name="F:MG.Settings.Json.SettingChangedAction.Add">
+            <summary>
+            A setting was added to the manager.
+            </summary>
+        </member>
+        <member name="F:MG.Settings.Json.SettingChangedAction.Remove">
+            <summary>
+            A setting was removed from the manager.
+            </summary>
+        </member>
+        <member name="F:MG.Settings.Json.SettingChangedAction.Replace">
+            <summary>
+            A setting had its value updated.
+            </summary>
+        </member>
+        <member name="F:MG.Settings.Json.SettingChangedAction.Save">
+            <summary>
+            The manager had the current settings written to the file system.
+            </summary>
+        </member>
+        <member name="F:MG.Settings.Json.SettingChangedAction.Read">
+            <summary>
+            The manager read the initial settings from the file system.
+            </summary>
+        </member>
+        <member name="F:MG.Settings.Json.SettingChangedAction.Reload">
+            <summary>
+            The manager reloaded its settings from the file system.
+            </summary>
+        </member>
+        <member name="T:MG.Settings.Json.IJsonSettings">
+            <summary>
+            An interface exposing methods and properties for a JSON setting manipulator.
+            </summary>
+        </member>
+        <member name="E:MG.Settings.Json.IJsonSettings.NotifySettingsChanged">
+            <summary>
+            An event handler for when changes that would alter the JSON settings have been made.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.IJsonSettings.Encoding">
+            <summary>
+            The text encoding used when reading from and writing to the JSON settings file.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.IJsonSettings.FilePath">
+            <summary>
+            Specifies the full FileSystem path to the JSON settings file that will be read from and written to.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.IJsonSettings.JsonSerializer">
+            <summary>
+            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.IJsonSettings.SetLoadSerializer(Newtonsoft.Json.JsonSerializer)">
+            <summary>
+            Sets the <see cref="T:Newtonsoft.Json.JsonSerializer"/> to be used when converting between <see cref="T:Newtonsoft.Json.Linq.JToken"/> instances.
+            </summary>
+            <param name="loadSerializer"></param>
+        </member>
+        <member name="P:MG.Settings.Json.IJsonSettings.SettingsAsJson">
+            <summary>
+            Returns the represented settings from the inheriting class as a <see cref="T:Newtonsoft.Json.Linq.JObject"/>.
+            </summary>
+        </member>
+        <member name="T:MG.Settings.Json.IReadable">
+            <summary>
+            An interface that provides a method to read the underlying JSON file.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.IReadable.Read">
+            <summary>
+            Reads the configured JSON file and deserializes it into the current object.
+            </summary>
+        </member>
+        <member name="T:MG.Settings.Json.ISavable">
+            <summary>
+            An interface providing methods for serializing data back to the file system.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.ISavable.Save">
+            <summary>
+            Serializes the data held by the inheriting class into JSON and writes it to the configured file.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.ISavable.Save(Newtonsoft.Json.JsonTextWriter)">
+            <summary>
+            Serializes the data using the specified <see cref="T:Newtonsoft.Json.JsonTextWriter"/> held by the 
+            inheriting class into JSON and writes it to the configured file.
+            </summary>
+            <param name="jsonWriter">The text writer to use when serializing the data.</param>
+        </member>
+        <member name="T:MG.Settings.Json.JsonSettingsManager">
+            <summary>
+            A class for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettingsManager.Encoding">
+            <summary>
+            The text encoding used when reading from and writing to the JSON settings file.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettingsManager.Exists">
+            <summary>
+            Indicates whether the underlying JSON settings file exists.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettingsManager.FilePath">
+            <summary>
+            Specifies the full FileSystem path to the JSON settings file that will be read from and written to.
+            </summary>
+            <exception cref="T:System.ArgumentException">The path specified did have a .json file extension.</exception>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettingsManager.JsonSerializer">
+            <summary>
+            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
+            </summary>
+        </member>
+        <member name="E:MG.Settings.Json.JsonSettingsManager.NotifySettingsChanged">
+            <summary>
+            An event handler for when changes that would alter the JSON settings have been made.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettingsManager.#ctor">
+            <summary>
+            The default constructor using a UTF-8 <see cref="T:System.Text.Encoding"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettingsManager.#ctor(System.String)">
+            <summary>
+            Initializes a <see cref="T:MG.Settings.Json.JsonSettingsManager"/> instance using a UTF-8 encoding with the specified file path.
+            </summary>
+            <param name="filePath">The file path that the <see cref="T:MG.Settings.Json.JsonSettingsManager"/> will read from and write to.</param>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettingsManager.Read(MG.Settings.Json.SettingChangedAction)">
+            <summary>
+            Reads the file from <see cref="P:MG.Settings.Json.JsonSettingsManager.FilePath"/> and dynamically maps the properties to inheriting class.
+            </summary>
+            <param name="action">The specific action to be presented to the event handler.</param>
+            <exception cref="T:System.ArgumentException" />
+            <exception cref="T:System.ArgumentNullException">The <see cref="P:MG.Settings.Json.JsonSettingsManager.FilePath"/> property has not been defined.</exception>
+            <exception cref="T:System.IO.FileNotFoundException" />
+            <exception cref="T:System.IO.IOException" />
+            <exception cref="T:System.NotSupportedException" />
+            <exception cref="T:System.OutOfMemoryException" />
+            <exception cref="T:System.IO.PathTooLongException" />
+            <exception cref="T:System.UnauthorizedAccessException" />
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettingsManager.Save">
+            <summary>
+            Serializes the <see cref="T:MG.Settings.Json.JsonSettingsManager"/> instance into JSON and writes the text to the path 
+            defined in <see cref="P:MG.Settings.Json.JsonSettingsManager.FilePath"/>.
+            </summary>
+            <exception cref="T:System.ArgumentException" />
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.IO.DirectoryNotFoundException" />
+            <exception cref="T:System.NotSupportedException" />
+            <exception cref="T:System.IO.PathTooLongException" />
+            <exception cref="T:System.UnauthorizedAccessException" />
+        </member>
+    </members>
+</doc>
