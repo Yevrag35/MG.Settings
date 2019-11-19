@@ -4,7 +4,7 @@
     <TargetFramework>netstandard1.3</TargetFramework>
     <RootNamespace>MG.Settings.Json</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Mike Garvey</Authors>
     <Company>Yevrag35, LLC.</Company>
     <Description>A library for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.</Description>
@@ -12,6 +12,9 @@
     <RepositoryUrl>https://github.com/Yevrag35/MG.Settings.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Copyright>Copyright © 2018-2019 Yevrag35, LLC.  All rights reserved.</Copyright>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <FileVersion>1.1.1</FileVersion>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,7 +28,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 	</ItemGroup>
 
@@ -34,17 +37,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="DebugScript.ps1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="DebugScript.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Testing\MySettingManager.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DebugScript.ps1">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="powershell.exe -ex Bypass -File &quot;$(SolutionDir)GenerateNugetPkg.ps1&quot; -Configuration &quot;$(ConfigurationName)&quot; -ProjectName &quot;$(ProjectName)&quot;" />
+  </Target>
 
 </Project>
