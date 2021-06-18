@@ -68,23 +68,21 @@ namespace MG.Settings.Json
         /// <summary>
         /// Specifies custom <see cref="JsonSerializerSettings"/> used when reading and writing the JSON settings file.
         /// </summary>
-        public JsonSerializerSettings JsonSerializer { get; set; }
-        JObject IJsonSettings.SettingsAsJson
+        public JsonSerializerSettings SerializerSettings { get; set; }
+        public JObject GetAsJObject()
         {
-            get
+            if (_forLoading == null)
             {
-                if (_forLoading == null)
+                _forLoading = new JsonSerializer
                 {
-                    _forLoading = new JsonSerializer
-                    {
-                        NullValueHandling = NullValueHandling.Include,
-                        Formatting = Formatting.Indented
-                    };
-                    _forLoading.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
-                }
-                return JObject.FromObject(this, _forLoading);
+                    NullValueHandling = NullValueHandling.Include,
+                    Formatting = Formatting.Indented
+                };
+                _forLoading.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
             }
+            return JObject.FromObject(this, _forLoading);
         }
+
         /// <summary>
         /// An event handler for when changes that would alter the JSON settings have been made.
         /// </summary>
@@ -103,7 +101,10 @@ namespace MG.Settings.Json
         /// Initializes a <see cref="JsonSettingsManager"/> instance using a UTF-8 encoding with the specified file path.
         /// </summary>
         /// <param name="filePath">The file path that the <see cref="JsonSettingsManager"/> will read from and write to.</param>
-        public JsonSettingsManager(string filePath) : this() => this.FilePath = filePath;
+        public JsonSettingsManager(string filePath) : this()
+        {
+            this.FilePath = filePath;
+        }
 
         #region PUBLIC METHODS
         [Obsolete]
@@ -140,8 +141,8 @@ namespace MG.Settings.Json
             {
                 string rawJson = reader.ReadToEnd();
 
-                if (this.JsonSerializer != null)
-                    JsonConvert.PopulateObject(rawJson, this, this.JsonSerializer);
+                if (this.SerializerSettings != null)
+                    JsonConvert.PopulateObject(rawJson, this, this.SerializerSettings);
 
                 else
                     JsonConvert.PopulateObject(rawJson, this);

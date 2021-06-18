@@ -26,15 +26,15 @@ namespace MG.Settings.Json
         /// <summary>
         /// Specifies custom <see cref="JsonSerializerSettings"/> used when reading and writing the JSON settings file.
         /// </summary>
-        JsonSerializerSettings JsonSerializer { get; set; }
+        JsonSerializerSettings SerializerSettings { get; set; }
         /// <summary>
         /// Sets the <see cref="Newtonsoft.Json.JsonSerializer"/> to be used when converting between <see cref="JToken"/> instances.
         /// </summary>
-        /// <param name="loadSerializer"></param>
-        void SetLoadSerializer(JsonSerializer loadSerializer);
+        JsonSerializer Serializer { get; set; }
         /// <summary>
         /// Returns the represented settings from the inheriting class as a <see cref="JObject"/>.
         /// </summary>
-        JObject SettingsAsJson { get; }
+        //JObject SettingsAsJson { get; }
+        JObject GetAsJObject();
     }
 }

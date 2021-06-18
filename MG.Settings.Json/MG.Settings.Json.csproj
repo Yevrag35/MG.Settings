@@ -4,16 +4,16 @@
     <TargetFramework>netstandard1.3</TargetFramework>
     <RootNamespace>MG.Settings.Json</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>2.0.0</Version>
     <Authors>Mike Garvey</Authors>
     <Company>Yevrag35, LLC.</Company>
     <Description>A library for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.</Description>
     <PackageProjectUrl>https://github.com/Yevrag35/MG.Settings</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Yevrag35/MG.Settings.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Copyright>Copyright © 2018-2019 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <Copyright>Copyright © 2018-2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
@@ -33,10 +33,12 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="src\SettingsManager.cs" />
     <Compile Remove="Testing\MySettingManager.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="src\SettingsManager.cs" />
     <None Include="Testing\MySettingManager.cs" />
   </ItemGroup>
 
