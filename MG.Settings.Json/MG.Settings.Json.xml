@@ -4,11 +4,87 @@
         <name>MG.Settings.Json</name>
     </assembly>
     <members>
+        <member name="T:MG.Settings.Json.JsonSettings">
+            <summary>
+            A class for reading and saving settings for applications in a JSON file format.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettings.DefaultFilePath">
+            <summary>
+            Specifies the default file path for the settings file if the configured <see cref="P:MG.Settings.Json.JsonSettings.FilePath"/> is not
+            found or is impossible to write to.  If this path is not configured and <see cref="P:MG.Settings.Json.JsonSettings.FilePath"/> is invalid,
+            then an error will be thrown.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettings.Encoding">
+            <summary>
+            The encoding used when reading and writing to the JSON settings file.
+            Defaults to <see cref="P:System.Text.Encoding.UTF8"/> and cannot be made <see langword="null"/>.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettings.FilePath">
+            <summary>
+            Specifies the full FileSystem path to the JSON settings file that will be read from and written to.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettings.Serializer">
+            <summary>
+            The <see cref="T:Newtonsoft.Json.JsonSerializer"/> to be used when converting between <see cref="T:Newtonsoft.Json.Linq.JToken"/> instances.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.JsonSettings.SerializerSettings">
+            <summary>
+            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettings.Exists(System.IO.IOException@)">
+            <summary>
+            Indicates whether the configured <see cref="P:MG.Settings.Json.JsonSettings.FilePath"/> exists.
+            </summary>
+            <remarks>
+                If an error occurs during the check,
+                the caught <see cref="T:System.IO.IOException"/> is returned as <paramref name="caughtException"/>.
+            </remarks>
+            <returns>
+                <see langword="true"/> if the path at <see cref="P:MG.Settings.Json.JsonSettings.FilePath"/> exists;
+                otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettings.Read">
+            <summary>
+            Reads the configured JSON file and deserializes it into the current object.
+            </summary>
+            <exception cref="T:System.IO.FileNotFoundException"/>
+            <exception cref="T:System.IO.PathTooLongException"/>
+            <exception cref="T:System.UnauthorizedAccessException"/>
+            <exception cref="T:System.NotSupportedException"/>
+            <exception cref="T:System.IO.IOException"/>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettings.ToJObject(Newtonsoft.Json.Linq.JsonLoadSettings)">
+            <summary>
+            Reads the configured JSON file and deserializes it a new <see cref="T:Newtonsoft.Json.Linq.JObject"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettings.ReadAsync">
+            <summary>
+            Reads the configured JSON file asynchronously and deserializes it into the current object.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettings.Save">
+            <summary>
+            Serializes the data held by the inheriting class into JSON and writes it to the configured file.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.JsonSettings.SaveAsync">
+            <summary>
+            Serializes the data held by the inheriting class into JSON and writes it to the configured file asynchronously.
+            </summary>
+        </member>
         <member name="T:MG.Settings.Json.SettingsChangedEventHandler">
             <summary>
-            An delegate to register for handling events when the <see cref="T:MG.Settings.Json.JsonSettingsManager"/> has it settings altered.
+            An delegate to register for handling events when the <see cref="!:JsonSettingsManager"/> has it settings altered.
             </summary>
-            <param name="sender">The <see cref="T:MG.Settings.Json.JsonSettingsManager"/> instance which experienced the alteration.</param>
+            <param name="sender">The <see cref="!:JsonSettingsManager"/> instance which experienced the alteration.</param>
             <param name="e">The event arguments associated with the triggered event.</param>
         </member>
         <member name="T:MG.Settings.Json.SettingsChangedEventArgs">
@@ -125,14 +201,49 @@
             The manager reloaded its settings from the file system.
             </summary>
         </member>
+        <member name="T:MG.Settings.Json.IAsyncGenericReadable">
+            <summary>
+            An interface that provides a method to read the underlying JSON file asynchronously into the specified <see cref="T:MG.Settings.Json.IJsonConvertible"/>.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.IAsyncGenericReadable.SerializerSettings">
+            <summary>
+            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
+            </summary>
+        </member>
+        <member name="T:MG.Settings.Json.IAsyncReadable">
+            <summary>
+            An interface that provides a method to read the underlying JSON file asynchronously.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.IAsyncReadable.SerializerSettings">
+            <summary>
+            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.IAsyncReadable.ReadAsync">
+            <summary>
+            Reads the configured JSON file asynchronously and deserializes it into the current object.
+            </summary>
+        </member>
+        <member name="T:MG.Settings.Json.IAsyncSavable">
+            <summary>
+            An interface providing methods for serializing data back to the file system asynchronously.
+            </summary>
+        </member>
+        <member name="P:MG.Settings.Json.IAsyncSavable.Serializer">
+            <summary>
+            Sets the <see cref="T:Newtonsoft.Json.JsonSerializer"/> to be used when converting between <see cref="T:Newtonsoft.Json.Linq.JToken"/> instances.
+            </summary>
+        </member>
+        <member name="M:MG.Settings.Json.IAsyncSavable.SaveAsync">
+            <summary>
+            Serializes the data held by the inheriting class into JSON and writes it to the configured file asynchronously.
+            </summary>
+        </member>
         <member name="T:MG.Settings.Json.IJsonSettings">
             <summary>
             An interface exposing methods and properties for a JSON setting manipulator.
-            </summary>
-        </member>
-        <member name="E:MG.Settings.Json.IJsonSettings.NotifySettingsChanged">
-            <summary>
-            An event handler for when changes that would alter the JSON settings have been made.
             </summary>
         </member>
         <member name="P:MG.Settings.Json.IJsonSettings.Encoding">
@@ -145,20 +256,9 @@
             Specifies the full FileSystem path to the JSON settings file that will be read from and written to.
             </summary>
         </member>
-        <member name="P:MG.Settings.Json.IJsonSettings.JsonSerializer">
+        <member name="T:MG.Settings.Json.IReadable`1">
             <summary>
-            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
-            </summary>
-        </member>
-        <member name="M:MG.Settings.Json.IJsonSettings.SetLoadSerializer(Newtonsoft.Json.JsonSerializer)">
-            <summary>
-            Sets the <see cref="T:Newtonsoft.Json.JsonSerializer"/> to be used when converting between <see cref="T:Newtonsoft.Json.Linq.JToken"/> instances.
-            </summary>
-            <param name="loadSerializer"></param>
-        </member>
-        <member name="P:MG.Settings.Json.IJsonSettings.SettingsAsJson">
-            <summary>
-            Returns the represented settings from the inheriting class as a <see cref="T:Newtonsoft.Json.Linq.JObject"/>.
+            An interface that provides a method to read the underlying JSON file into the specified <see cref="T:MG.Settings.Json.IJsonConvertible"/>.
             </summary>
         </member>
         <member name="T:MG.Settings.Json.IReadable">
@@ -166,9 +266,14 @@
             An interface that provides a method to read the underlying JSON file.
             </summary>
         </member>
+        <member name="P:MG.Settings.Json.IReadable.SerializerSettings">
+            <summary>
+            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
+            </summary>
+        </member>
         <member name="M:MG.Settings.Json.IReadable.Read">
             <summary>
-            Reads the configured JSON file and deserializes it into the current object.
+            Reads the configured JSON file and deserializes it into the current inheriting instance.
             </summary>
         </member>
         <member name="T:MG.Settings.Json.ISavable">
@@ -176,87 +281,15 @@
             An interface providing methods for serializing data back to the file system.
             </summary>
         </member>
+        <member name="P:MG.Settings.Json.ISavable.Serializer">
+            <summary>
+            Sets the <see cref="T:Newtonsoft.Json.JsonSerializer"/> to be used when converting between <see cref="T:Newtonsoft.Json.Linq.JToken"/> instances.
+            </summary>
+        </member>
         <member name="M:MG.Settings.Json.ISavable.Save">
             <summary>
             Serializes the data held by the inheriting class into JSON and writes it to the configured file.
             </summary>
-        </member>
-        <member name="M:MG.Settings.Json.ISavable.Save(Newtonsoft.Json.JsonTextWriter)">
-            <summary>
-            Serializes the data using the specified <see cref="T:Newtonsoft.Json.JsonTextWriter"/> held by the 
-            inheriting class into JSON and writes it to the configured file.
-            </summary>
-            <param name="jsonWriter">The text writer to use when serializing the data.</param>
-        </member>
-        <member name="T:MG.Settings.Json.JsonSettingsManager">
-            <summary>
-            A class for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.
-            </summary>
-        </member>
-        <member name="P:MG.Settings.Json.JsonSettingsManager.Encoding">
-            <summary>
-            The text encoding used when reading from and writing to the JSON settings file.
-            </summary>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="P:MG.Settings.Json.JsonSettingsManager.Exists">
-            <summary>
-            Indicates whether the underlying JSON settings file exists.
-            </summary>
-        </member>
-        <member name="P:MG.Settings.Json.JsonSettingsManager.FilePath">
-            <summary>
-            Specifies the full FileSystem path to the JSON settings file that will be read from and written to.
-            </summary>
-            <exception cref="T:System.ArgumentException">The path specified did have a .json file extension.</exception>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="P:MG.Settings.Json.JsonSettingsManager.JsonSerializer">
-            <summary>
-            Specifies custom <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> used when reading and writing the JSON settings file.
-            </summary>
-        </member>
-        <member name="E:MG.Settings.Json.JsonSettingsManager.NotifySettingsChanged">
-            <summary>
-            An event handler for when changes that would alter the JSON settings have been made.
-            </summary>
-        </member>
-        <member name="M:MG.Settings.Json.JsonSettingsManager.#ctor">
-            <summary>
-            The default constructor using a UTF-8 <see cref="T:System.Text.Encoding"/>.
-            </summary>
-        </member>
-        <member name="M:MG.Settings.Json.JsonSettingsManager.#ctor(System.String)">
-            <summary>
-            Initializes a <see cref="T:MG.Settings.Json.JsonSettingsManager"/> instance using a UTF-8 encoding with the specified file path.
-            </summary>
-            <param name="filePath">The file path that the <see cref="T:MG.Settings.Json.JsonSettingsManager"/> will read from and write to.</param>
-        </member>
-        <member name="M:MG.Settings.Json.JsonSettingsManager.Read(MG.Settings.Json.SettingChangedAction)">
-            <summary>
-            Reads the file from <see cref="P:MG.Settings.Json.JsonSettingsManager.FilePath"/> and dynamically maps the properties to inheriting class.
-            </summary>
-            <param name="action">The specific action to be presented to the event handler.</param>
-            <exception cref="T:System.ArgumentException" />
-            <exception cref="T:System.ArgumentNullException">The <see cref="P:MG.Settings.Json.JsonSettingsManager.FilePath"/> property has not been defined.</exception>
-            <exception cref="T:System.IO.FileNotFoundException" />
-            <exception cref="T:System.IO.IOException" />
-            <exception cref="T:System.NotSupportedException" />
-            <exception cref="T:System.OutOfMemoryException" />
-            <exception cref="T:System.IO.PathTooLongException" />
-            <exception cref="T:System.UnauthorizedAccessException" />
-        </member>
-        <member name="M:MG.Settings.Json.JsonSettingsManager.Save">
-            <summary>
-            Serializes the <see cref="T:MG.Settings.Json.JsonSettingsManager"/> instance into JSON and writes the text to the path 
-            defined in <see cref="P:MG.Settings.Json.JsonSettingsManager.FilePath"/>.
-            </summary>
-            <exception cref="T:System.ArgumentException" />
-            <exception cref="T:System.ArgumentNullException" />
-            <exception cref="T:System.IO.DirectoryNotFoundException" />
-            <exception cref="T:System.NotSupportedException" />
-            <exception cref="T:System.IO.PathTooLongException" />
-            <exception cref="T:System.UnauthorizedAccessException" />
         </member>
     </members>
 </doc>

@@ -19,6 +19,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>MG.Settings.Json.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -38,14 +40,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="src\SettingsManager.cs" />
-    <None Include="Testing\MySettingManager.cs" />
+    <None Remove="DebugScript.ps1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DebugScript.ps1">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    <Content Include="DebugScript.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="src\SettingsManager.cs" />
+    <None Include="Testing\MySettingManager.cs" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
