@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MG.Settings.Json.Extensions;
 
 namespace MG.Settings.Json
 {
@@ -250,16 +253,6 @@ namespace MG.Settings.Json
             return result;
         }
 
-        ///// <summary>
-        ///// Returns the represented settings from the inheriting class as a <see cref="JObject"/>.
-        ///// </summary>
-        //public virtual JObject GetAsJObject()
-        //{
-        //    JsonSerializer serializer = this.Serializer != null ? this.Serializer : new JsonSerializer();
-
-        //    return JObject.FromObject(this, serializer);
-        //}
-
         /// <summary>
         /// Reads the configured JSON file and deserializes it into the current object.
         /// </summary>
@@ -327,7 +320,13 @@ namespace MG.Settings.Json
 
         #endregion
 
+        #region PROTECTED METHODS
+
+
+        #endregion
+
         #region BACKEND/PRIVATE METHODS
+
         private string ReadFile(string filePath)
         {
             using (FileStream fs = File.OpenRead(filePath))
@@ -349,17 +348,17 @@ namespace MG.Settings.Json
             }
         }
 
-        private bool TestFilePath(string path, out FileInfo foundFileInfo)
-        {
-            foundFileInfo = null;
-            if (string.IsNullOrWhiteSpace(path))
-                return false;
+        //private bool TestFilePath(string path, out FileInfo foundFileInfo)
+        //{
+        //    foundFileInfo = null;
+        //    if (string.IsNullOrWhiteSpace(path))
+        //        return false;
 
-            bool exists = File.Exists(path);
-            foundFileInfo = new FileInfo(path);
+        //    bool exists = File.Exists(path);
+        //    foundFileInfo = new FileInfo(path);
 
-            return exists;
-        }
+        //    return exists;
+        //}
 
         private bool TestDefaultPath() => File.Exists(this.DefaultFilePath);
 
