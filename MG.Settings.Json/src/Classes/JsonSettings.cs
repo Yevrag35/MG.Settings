@@ -272,6 +272,7 @@ namespace MG.Settings.Json
         {
             string jsonContents = this.ReadFile(_fileInfo.FullName);
             if (string.IsNullOrWhiteSpace(jsonContents))
+                return;
 
             JsonConvert.PopulateObject(jsonContents, this, this.SerializerSettings);
         }
