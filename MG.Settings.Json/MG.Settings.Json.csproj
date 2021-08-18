@@ -4,21 +4,23 @@
     <TargetFramework>netstandard1.3</TargetFramework>
     <RootNamespace>MG.Settings.Json</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.1.1</Version>
+    <Version>2.11.0</Version>
     <Authors>Mike Garvey</Authors>
     <Company>Yevrag35, LLC.</Company>
     <Description>A library for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.</Description>
     <PackageProjectUrl>https://github.com/Yevrag35/MG.Settings</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Yevrag35/MG.Settings.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Copyright>Copyright © 2018-2019 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <Copyright>Copyright © 2018-2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <FileVersion>2.1.0</FileVersion>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>MG.Settings.Json.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -37,13 +39,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Testing\MySettingManager.cs" />
+    <None Remove="DebugScript.ps1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DebugScript.ps1">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    <Content Include="DebugScript.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Testing\MySettingManager.cs" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
