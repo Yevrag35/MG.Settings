@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Settings.Json-UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Settings.Json", "MG.Settings.Json\MG.Settings.Json.csproj", "{CAE0E93E-8D50-47F4-AE2A-84C777F30188}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Settings.Json-Standard2.0", "MG.Settings.Json-Standard2.0\MG.Settings.Json-Standard2.0.csproj", "{40C1AB69-28E1-4EC7-8114-D90EB207F1B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Settings.Json-NETFramework", "MG.Settings.Json-NETFramework\MG.Settings.Json-NETFramework.csproj", "{ADAA8D1B-344D-46A4-A3BF-60B9BF6059C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{CAE0E93E-8D50-47F4-AE2A-84C777F30188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE0E93E-8D50-47F4-AE2A-84C777F30188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE0E93E-8D50-47F4-AE2A-84C777F30188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C1AB69-28E1-4EC7-8114-D90EB207F1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C1AB69-28E1-4EC7-8114-D90EB207F1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C1AB69-28E1-4EC7-8114-D90EB207F1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C1AB69-28E1-4EC7-8114-D90EB207F1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADAA8D1B-344D-46A4-A3BF-60B9BF6059C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADAA8D1B-344D-46A4-A3BF-60B9BF6059C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADAA8D1B-344D-46A4-A3BF-60B9BF6059C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADAA8D1B-344D-46A4-A3BF-60B9BF6059C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

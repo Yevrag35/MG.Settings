@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MG.Settings.Json</RootNamespace>
+    <Version>2.2.0</Version>
+    <Description>A library for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.</Description>
+    <Product>MG.Settings.Json - .NETStandard 2.0</Product>
+    <Company>Yevrag35, LLC.</Company>
+    <Authors>Mike Garvey</Authors>
+    <PackageId>MG.Settings.Json - .NETStandard 2.0</PackageId>
+    <Copyright>Copyright © 2018-2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/Yevrag35/MG.Settings</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Yevrag35/MG.Settings.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <AssemblyVersion>2.2.0</AssemblyVersion>
+    <FileVersion>2.2.0</FileVersion>
+    <AssemblyName>MG.Settings.Json</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>C:\Users\Mike\source\repos\MG.Settings\MG.Settings.Json-Standard2.0\MG.Settings.Json.xml</DocumentationFile>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\MG.Settings.Json\src\**\*.cs" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>
