@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>MG.Settings.Json</RootNamespace>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <Description>A library for maintaining, editing, and saving configuration settings stored in JSON text files for use with WPF applications.</Description>
     <Product>MG.Settings.Json - .NETStandard 2.0</Product>
     <Company>Yevrag35, LLC.</Company>
@@ -13,8 +13,8 @@
     <PackageProjectUrl>https://github.com/Yevrag35/MG.Settings</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Yevrag35/MG.Settings.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <AssemblyVersion>2.2.0</AssemblyVersion>
-    <FileVersion>2.2.0</FileVersion>
+    <AssemblyVersion>2.2.1</AssemblyVersion>
+    <FileVersion>2.2.1</FileVersion>
     <AssemblyName>MG.Settings.Json</AssemblyName>
   </PropertyGroup>
 

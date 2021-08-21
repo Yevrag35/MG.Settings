@@ -173,7 +173,7 @@ namespace MG.Settings.Json
             caughtException = null;
             bool result = false;
 
-            if (_fileInfo == null || File.Exists(_fileInfo.FullName))
+            if (_fileInfo == null || !File.Exists(_fileInfo.FullName))
                 return result;
 
             try
